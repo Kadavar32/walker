@@ -1,8 +1,6 @@
 # StructureWalker
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/structure_walker`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Structure Walker helps walk through nested structures and process what you need and how you want.
 
 ## Installation
 
@@ -22,7 +20,25 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Example:
+
+      handler = ->(data) { data[:example_key] = 'some_value'; data }
+
+      data = { some_key: { specific_key: [ { key: 'value' }, { key: 'value' }], another_key: {key: 'value' } } }
+
+      steps = [[:enum, :hash], [:key, :specific_key], [:enum, :array]]
+
+      walker = StructureWalker::Builder.invoke(handler)
+
+      result = walker.call(steps, data)
+
+      {:some_key=>{:specific_key=>[{:key=>"value", :example_key=>"some_value"}, {:key=>"value", :example_key=>"some_value"}], :another_key=>{:key=>"value"}}}
+
+Available steps:
+[:enum, :hash]
+[:enum, :array]
+[:key, :some_key]
+[:method, :method_name]
 
 ## Development
 
