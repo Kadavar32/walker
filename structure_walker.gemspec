@@ -13,6 +13,7 @@ Gem::Specification.new do |spec|
   spec.description   = %q{The gem helps you to 'walk' in nested structures, process what you need, and how you want.}
   spec.homepage      = 'https://github.com/Kadavar32/walker.git'
   spec.license       = "MIT"
+  spec.required_ruby_version = '~> 2.0'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
