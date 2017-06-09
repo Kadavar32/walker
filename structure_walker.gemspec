@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["Kadavar32@gmail.com"]
 
   spec.summary       = %q{The gem helps you to 'walk' in nested structures, process what you need, and how you want.}
-  spec.description   = %q{Walker Gem}
+  spec.description   = %q{The gem helps you to 'walk' in nested structures, process what you need, and how you want.}
   spec.homepage      = 'https://github.com/Kadavar32/walker.git'
   spec.license       = "MIT"
 
