@@ -34,11 +34,12 @@ Example:
 
       {:some_key=>{:specific_key=>[{:key=>"value", :example_key=>"some_value"}, {:key=>"value", :example_key=>"some_value"}], :another_key=>{:key=>"value"}}}
 
-Available steps:
+ Available steps:
+    
         [:enum, :hash]
-    [:enum, :array]
-    [:key, :some_key]
-    [:method, :method_name]
+        [:enum, :array]
+        [:key, :some_key]
+        [:method, :method_name]
 
 
 ## Contributing
