@@ -51,11 +51,11 @@ Example with multiple keys:
      result # => { key: { specific_key: [{ key: 'value', new_key: 'value' }], another_key:  [{ key: 'value' }], one_more_key: [{ key: 'value', new_key: 'value' }] } }
  
 Available steps:
-    
-        [:enum, :hash]
-        [:enum, :array]
-        [:key, :some_key]
-        [:keys, [:key_one, :key_two]]
+
+        [:enum, :hash] - walk through hash elements value
+        [:enum, :array] - walk through array elements
+        [:key, :some_key] - walk on value of key :some_key
+        [:keys, [:key_one, :key_two]] - walk on values of keys key_one and key_two
 
 
 ## Contributing
