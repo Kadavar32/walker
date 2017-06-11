@@ -20,11 +20,9 @@ module StructureWalker
                        elsif data_type == :array
                          data.each { |v| walker.call(steps, v) }
                        end
-                     when :key
-                       walker.call(steps, data[data_type])
-                     when :method
-                       record = data.send(data_type)
-                       walker.call(steps, record)
+                     when :key, :keys
+                       data_types = [data_type].flatten
+                       data_types.each { |type| walker.call(steps, data[type]) }
                      end
           end
           result

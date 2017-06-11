@@ -7,16 +7,57 @@ RSpec.describe StructureWalker do
 
   describe 'without errors' do
 
+    let(:proc) { ->(data) { data[:new_key] = 'value'; data } }
+
     subject { StructureWalker::Builder.invoke(proc).call(steps, data) }
 
-    context 'with simple structure'
-    let(:data) { { key: [{ key: 'key' }, { key: 'key' }]} }
-    let(:result) { { key: [{ key: 'key', ok: 'data' }, { key: 'key', ok: 'data' }] } }
-    let(:proc) { ->(data) { data[:ok] = 'data'; data } }
-    let(:steps) { [[:enum, :hash], [:enum, :array]] }
+    shared_examples 'changed data' do
+      it 'change data to result' do
+        expect(subject).to eq result
+      end
+    end
 
-    it 'changes data with proc' do
-      expect(subject).to eq result
+    context 'with empty steps' do
+      let(:data) { { key: [{ key: 'value' }] } }
+      let(:steps) { [] }
+      it 'doesn`t change data' do
+        expect(subject).to eq data
+      end
+    end
+
+    context 'with simple structure' do
+      let(:data) { { key: [{ key: 'key' }, { key: 'key' }]} }
+      let(:steps) { [[:enum, :hash], [:enum, :array]] }
+
+      it_behaves_like 'changed data' do
+        let(:result) { { key: [{ key: 'key', new_key: 'value' }, { key: 'key', new_key: 'value' }] } }
+      end
+    end
+
+    context 'with key step' do
+      let(:data) { { key: { specific_key: [{ key: 'value' }], another_key: [{ key: 'value' }] } } }
+      let(:steps) { [[:enum, :hash], [:key, :specific_key], [:enum, :array]] }
+
+      it_behaves_like 'changed data' do
+        let(:result) { { key: { specific_key: [{ key: 'value', new_key: 'value' }],
+                                another_key: [{ key: 'value' }] } } }
+      end
+    end
+
+    context 'with keys step' do
+      let(:data) do
+        { key: { specific_key: [{ key: 'value' }],
+                 another_key:  [{ key: 'value' }],
+                 one_more_key: [{ key: 'value' }] } }
+      end
+
+      let(:steps) { [[:enum, :hash], [:keys, [:specific_key, :one_more_key]], [:enum, :array]] }
+
+      it_behaves_like 'changed data' do
+        let(:result) { { key: { specific_key: [{ key: 'value', new_key: 'value' }],
+                                another_key:  [{ key: 'value' }],
+                                one_more_key: [{ key: 'value', new_key: 'value' }]} } }
+      end
     end
   end
 end
