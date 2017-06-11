@@ -1,4 +1,6 @@
-require "structure_walker/version"
+require 'structure_walker/version'
+require 'structure_walker/stepper'
+require 'structure_walker/steps'
 
 module StructureWalker
   class Builder
@@ -6,24 +8,14 @@ module StructureWalker
       def invoke(proc)
         walker = -> (steps, data) do
           return if data.nil?
+
           if steps.empty?
             result = proc.call(data)
           else
             steps = steps.clone
             step = steps.shift
-            key = step.first
-            data_type = step.last
-            result = case key
-                     when :enum
-                       if data_type == :hash
-                         data.each { |_k,v| walker.call(steps, v) }
-                       elsif data_type == :array
-                         data.each { |v| walker.call(steps, v) }
-                       end
-                     when :key, :keys
-                       data_types = [data_type].flatten
-                       data_types.each { |type| walker.call(steps, data[type]) }
-                     end
+            type, keys = step.is_a?(Array) ? [step.first, step.last] : [step, nil]
+            result = StructureWalker::Stepper.invoke(type).call(data, steps, walker, keys)
           end
           result
         end
