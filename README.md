@@ -1,5 +1,7 @@
 # StructureWalker
 
+[![Build Status](https://travis-ci.org/Kadavar32/walker.svg?branch=master)](https://travis-ci.org/Kadavar32/walker)
+
 Deep nested structure walker.
 
 ## Installation
