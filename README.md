@@ -1,6 +1,8 @@
 # StructureWalker
 
-Structure Walker helps walk through nested structures and process what you need and how you want.
+[![Build Status](https://travis-ci.org/Kadavar32/walker.svg?branch=master)](https://travis-ci.org/Kadavar32/walker)
+
+Deep nested structure walker.
 
 ## Installation
 
@@ -20,11 +22,11 @@ Or install it yourself as:
 
 ## Usage
 
-Example:
+Examples:
 
       handler = ->(data) { data[:example_key] = 'some_value'; data }
 
-      data = { some_key: { specific_key: [ { key: 'value' }, { key: 'value' }], another_key: {key: 'value' } } }
+      data = { some_key: { specific_key: [{ key: 'value' }, { key: 'value' }], another_key: { key: 'value' } } }  
 
       steps = [[:enum, :hash], [:key, :specific_key], [:enum, :array]]
 
@@ -32,14 +34,28 @@ Example:
 
       result = walker.call(steps, data)
 
-      {:some_key=>{:specific_key=>[{:key=>"value", :example_key=>"some_value"}, {:key=>"value", :example_key=>"some_value"}], :another_key=>{:key=>"value"}}}
+      result # => { some_key: { specific_key: [{ key: "value", example_key: "some_value" }, { key: "value", example_key: "some_value" }], another_key: { key: "value" } } }
 
- Available steps:
+Example with multiple keys:
+
+     handler = ->(data) { data[:example_key] = 'some_value'; data }
+
+     data = { key: { specific_key: [{ key: 'value' }], another_key:  [{ key: 'value' }], one_more_key: [{ key: 'value' }] } }
+
+     steps = [[:enum, :hash], [:keys, [:specific_key, :one_more_key]], [:enum, :array]]
+
+     walker = StructureWalker::Builder.invoke(handler)
+
+     result = walker.call(steps, data)
+
+     result # => { key: { specific_key: [{ key: 'value', new_key: 'value' }], another_key:  [{ key: 'value' }], one_more_key: [{ key: 'value', new_key: 'value' }] } }
+ 
+Available steps:
     
         [:enum, :hash]
         [:enum, :array]
         [:key, :some_key]
-        [:method, :method_name]
+        [:keys, [:key_one, :key_two]]
 
 
 ## Contributing
