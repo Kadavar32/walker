@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Kadavar"]
   spec.email         = ["Kadavar32@gmail.com"]
 
-  spec.summary       = %q{The gem helps you to 'walk' in nested structures, process what you need, and how you want.}
-  spec.description   = %q{The gem helps you to 'walk' in nested structures, process what you need, and how you want.}
+  spec.summary       = %q{The gem helps you to 'walk' in nested structures, avoiding nested each.}
+  spec.description   = %q{The gem helps you to 'walk' in nested structures, avoiding nested each.}
   spec.homepage      = 'https://github.com/Kadavar32/walker.git'
   spec.license       = "MIT"
   spec.required_ruby_version = '~> 2.0'
