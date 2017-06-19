@@ -6,7 +6,7 @@ module StructureWalker
   class Builder
     class << self
       def invoke(proc)
-        walker = -> (steps, data) do
+        walker = ->(steps, data) do
           return if data.nil?
 
           if steps.empty?
