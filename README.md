@@ -26,9 +26,9 @@ Examples:
 
       handler = ->(data) { data[:example_key] = 'some_value'; data }
 
-      data = { some_key: { specific_key: [{ key: 'value' }, { key: 'value' }], another_key: { key: 'value' } } }  
+      data = { some_key: { specific_key: [{ key: 'value' }, { key: 'value' }], another_key: { key: 'value' } } }
 
-      steps = [[:enum, :hash], [:key, :specific_key], [:enum, :array]]
+      steps = [:hash, [:key, :specific_key], :array]
 
       walker = StructureWalker::Builder.invoke(handler)
 
@@ -42,21 +42,20 @@ Example with multiple keys:
 
      data = { key: { specific_key: [{ key: 'value' }], another_key:  [{ key: 'value' }], one_more_key: [{ key: 'value' }] } }
 
-     steps = [[:enum, :hash], [:keys, [:specific_key, :one_more_key]], [:enum, :array]]
+     steps = [:hash, [:keys, [:specific_key, :one_more_key]], :array]
 
      walker = StructureWalker::Builder.invoke(handler)
 
      result = walker.call(steps, data)
 
-     result # => { key: { specific_key: [{ key: 'value', new_key: 'value' }], another_key:  [{ key: 'value' }], one_more_key: [{ key: 'value', new_key: 'value' }] } }
+     result # => { key: { specific_key: [{ key: 'value', new_key: 'value' }], another_key:  [{ key: 'value' }], one_more_key: [{ key: 'value', new_key: 'value' }]} }
  
 Available steps:
-
-        [:enum, :hash] - walk through hash elements value
-        [:enum, :array] - walk through array elements
+    
+        :hash - walk through hash elements value
+        :array - walk through array elements
         [:key, :some_key] - walk on value of key :some_key
         [:keys, [:key_one, :key_two]] - walk on values of keys key_one and key_two
-
 
 ## Contributing
     Fork it

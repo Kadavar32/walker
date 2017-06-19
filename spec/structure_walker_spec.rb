@@ -27,7 +27,7 @@ RSpec.describe StructureWalker do
 
     context 'with simple structure' do
       let(:data) { { key: [{ key: 'key' }, { key: 'key' }]} }
-      let(:steps) { [[:enum, :hash], [:enum, :array]] }
+      let(:steps) { [:hash, :array] }
 
       it_behaves_like 'changed data' do
         let(:result) { { key: [{ key: 'key', new_key: 'value' }, { key: 'key', new_key: 'value' }] } }
@@ -36,7 +36,7 @@ RSpec.describe StructureWalker do
 
     context 'with key step' do
       let(:data) { { key: { specific_key: [{ key: 'value' }], another_key: [{ key: 'value' }] } } }
-      let(:steps) { [[:enum, :hash], [:key, :specific_key], [:enum, :array]] }
+      let(:steps) { [:hash, [:key, :specific_key], :array] }
 
       it_behaves_like 'changed data' do
         let(:result) { { key: { specific_key: [{ key: 'value', new_key: 'value' }],
@@ -51,12 +51,12 @@ RSpec.describe StructureWalker do
                  one_more_key: [{ key: 'value' }] } }
       end
 
-      let(:steps) { [[:enum, :hash], [:keys, [:specific_key, :one_more_key]], [:enum, :array]] }
+      let(:steps) { [:hash, [:keys, [:specific_key, :one_more_key]], :array] }
 
       it_behaves_like 'changed data' do
         let(:result) { { key: { specific_key: [{ key: 'value', new_key: 'value' }],
                                 another_key:  [{ key: 'value' }],
-                                one_more_key: [{ key: 'value', new_key: 'value' }]} } }
+                                one_more_key: [{ key: 'value', new_key: 'value' }] } } }
       end
     end
   end
